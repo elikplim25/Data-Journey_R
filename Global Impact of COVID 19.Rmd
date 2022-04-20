@@ -1,0 +1,68 @@
+---
+title: "The Global Impact of COVID19 (From February 24th, 2020 to February 23rd, 2021)"
+author: "Elikplim Sabblah"
+date: "2/22/2021"
+output: 
+  html_document: 
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(sf)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+This document takes a statistical look at the effect that the COVID-19 pandemic has had on nations and human lives.
+The data spans a one-year period and reveals so many different ways the pandemic has affected lives across the continents and countries of this world. 
+
+### Visualizations
+
+First, we would like to take a look at how much testing has been done on the various continents of the world. 
+
+```{r include=FALSE}
+COVID <- read_csv("C:/Users/PAS/Downloads/owid-covid-data (1).csv")
+head(COVID)
+```
+
+```{r fig.height=8, fig.width=10, paged.print=TRUE}
+COVID_tests <- COVID %>%
+  select(continent, new_tests, tests_per_case)
+COVID_tests1<- aggregate(cbind(new_tests, tests_per_case)~continent, COVID_tests, sum)
+
+covid_Tests2 <- COVID_tests1 %>%
+  gather(new_tests,tests_per_case, key = "Details", value = "Number")
+
+ggplot(COVID_tests1, aes(continent, new_tests))+
+  geom_bar(stat = "identity", fill = "red4") + 
+  theme_bw()+
+  geom_text(aes(label = new_tests), vjust = -0.4, size = 6)+ 
+  theme(axis.text = element_text(size = 15, colour = "black", face = "bold"),
+        axis.title = element_text(size = 15, face = "bold")) + 
+  theme(plot.title = element_text(size = 20, face = "bold"))+
+  labs(title = "Total Number of COVID19 Tests Done on Continents", x = "Continent", y = "Number of Tests")
+  
+```
+
+Secondly, we would like to compare the number of tests done on all continents to the number of reported cases. 
+
+```{r}
+COVID_testcase <- COVID %>%
+select(continent, new_tests, new_cases)
+COVID_testcase1<- aggregate(cbind(new_tests, new_cases)~continent, COVID_testcase, sum)
+ggplot(COVID_testcase1, aes(new_tests, new_cases, colour = continent)) + 
+  geom_point(size = 4) + 
+  theme_bw() + 
+  scale_colour_manual(values = c("tomato2",  "red4", "lightsalmon4",
+                               "violetred", "steelblue2", "skyblue4"))
+  
+
+```
+
+Number of COVID Deaths vs Cardiovascular diseases related deaths
+```{r}
+
+```
+
