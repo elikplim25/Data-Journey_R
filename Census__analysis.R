@@ -1,3 +1,5 @@
+###### Bible Data Stories ###################
+
 library(tidyverse)
 library(scales)
 library(showtext)
@@ -17,7 +19,7 @@ Cen3[Cen3 == "First_census"]<- "First Census"
 Cen3[Cen3 == "Second_census"]<- "Second Census"
 
 
-####Visualize the data (divergent bar graph) ######
+####Visualize the data (divergent bar graph) ####
 ggplot(Cen3, 
        aes(x = factor(Tribes, 
                       level = c('Manasseh','Ephraim','Benjamin',
